@@ -1,23 +1,29 @@
 <?php if(!empty($postData)):?>
-    <div id="message<?php echo $postData->mid;?>" class="card" style="width:400px">
+<!--Matthew Giancola (40019131)-->
+<br>
+    <div  id="message<?php echo $postData->mid;?>" class="card" style="width:600px" >
         
-        <div class="card-body">
-            <h4 class="card-title"><?php echo $this->userModel->getUser($postData->msgFrom)."->".$this->userModel->getUser($postData->msgTo); ?></h4><!--This should convert the user id number into a name-->
+        <div class="card-body" style="background-color: lightgrey;"  >
+            <h4 class="card-title" style="color:steelblue;"><?php echo "'".($postData->fromName)."' has posted to '".($postData->toName)."'"; ?></h4><!--This should convert the user id number into a name-->
+
             <?php if($postData->msgAttach!=""):?>
             <img class="card-img-bottom" src="<?php echo $postData->msgAttach; ?>" alt="Card image">
             <?php endif; ?>
             <p class="card-text"><?php echo $postData->msgText;?></p>
-            <!-- Button to Open the Modal, uses mid to ensure that a uniue modal value is generated -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal<?php echo $postData->mid;?>">Comment</button>
+            <!-- Button to Open the Modal, uses mid to ensure that a unique modal value is generated -->
+            <button type="button"  class="btn-group-sm btn-primary" data-toggle="modal" data-target="#replyModal<?php echo $postData->mid;?>">Comment</button>
             <details class="card" id="m<?php echo $postData->mid?>Comments">
                 <summary>Show Comments...</summary>
             </details>
-            <!--Show edit button iff I poste this post-->
-            <?php if($_SESSION['loggedUser']==(int)$postData->msgFrom):?>
+            <!--Show edit button if I poste this post-->
+            <?php if($_SESSION['loggedUser']==(int)$postData->msgFrom || $_SESSION['loggedUser']==0):?>
                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editModal<?php echo $postData->mid;?>">Edit Text</button>
                 <!--Show edit button iff I poste this post-->
                 <!--Modal POPUP-->
                 <!-- The Modal for comment-->
+                <button type="button" class="btn btn-outline-danger">
+                    <a href="<?php echo BASEURL; ?>/main/removeMessage/<?php echo (int)$postData->mid;?>/<?php echo (int)$postData->msgFrom;?>">Delete</a>
+                </button>
                 <div class="modal" id="editModal<?php echo $postData->mid;?>">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -51,7 +57,7 @@
                 <div class="modal-content">
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h4 class="modal-title">Comment on the <?php echo strtolower($postData->msgSubject);?> by <?php echo strtolower($this->userModel->getUser($postData->msgFrom));?></h4>
+                        <h4 class="modal-title">Comment on the <?php echo strtolower($postData->msgSubject);?> by <?php echo strtolower(($postData->fromName));?></h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                         <form id="replyForm<?php echo $postData->mid;?>" action="<?php echo BASEURL; ?>/userPost/registerPostRequest" method="post" enctype="multipart/form-data">

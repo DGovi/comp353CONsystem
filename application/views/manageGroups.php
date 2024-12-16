@@ -15,12 +15,22 @@
 
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-11">
+        <div id='view' class="col-md-11">
             <h3>Manage Groups
             <a href="<?php echo BASEURL; ?>/group/createGroup"
                class="btn-editRemove btn-primary">Create Group</a>
             </h3>
             <?php include "components/groupsInfoDataTable.php"; ?>
+        </div>
+
+
+        <div id='join' class="col-md-11">
+            <br>
+            <h3>All CON Groups
+            <a href="<?php echo BASEURL; ?>/group/createGroup"
+               class="btn-editRemove btn-primary">Create Group</a>
+            </h3>
+            <?php include "components/groupsTotalInfoDatatable.php"; ?>
         </div>
         <!-- Close col-md-5 -->
     </div>
